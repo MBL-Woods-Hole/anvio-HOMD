@@ -1,0 +1,12 @@
+Hi Andy,
+
+The folder in the attached OneDrive link contains the files that the anvi'o program 'anvi-display-pan' requires to display a pangenome containing genomes from three members of the Streptococcus mitis group.
+
+mitis_group-PAN.db is an anvi'o pan database.
+
+mitis_group-GENOMES.db is an anvi'o genomes storage database.
+
+mitis_group_screenshot.png is a screenshot of what I see when I use 'anvi-display-pan' to display the pangenome in the anvi'o interactive interface.
+
+Anthony
+=====================================
