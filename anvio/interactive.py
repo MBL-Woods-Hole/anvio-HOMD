@@ -44,6 +44,10 @@ from anvio.tables.miscdata import (
 )
 from anvio.tables.collections import TablesForCollections
 
+import logging
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+logger.setLevel(logging.DEBUG)
 
 __author__ = "Developers of anvi'o (see AUTHORS.txt)"
 __copyright__ = "Copyleft 2015-2018, the Meren Lab (http://merenlab.org/)"
@@ -1168,14 +1172,16 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
 
     def load_pan_mode(self):
+        logger.debug('in anvio/interactive.py::load_pan_mode(self)-AAV')
         if not self.pan_db_path:
             raise ConfigError("So you want to display a pan genome without a pan database? Anvi'o is "
                                "confused :/")
-
+        logger.debug('in anvio/interactive.py::Initializing PanSuperClass-AAV')
         PanSuperclass.__init__(self, self.args)
-
+        
+        logger.debug('entering init_gene_clusters::PanSuperClass is initialized-AAV')
         self.init_gene_clusters()
-
+        logger.debug('returned from init_gene_clusters-AAV')
         if not self.skip_init_functions:
             self.init_gene_clusters_functions()
             self.init_gene_clusters_functions_summary_dict()
@@ -1183,8 +1189,9 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         PanSuperclass.init_items_additional_data(self)
 
         self.p_meta['item_orders'] = self.item_orders
-
+        logger.debug('entering load_pan_views-AAV')
         self.load_pan_views()
+        logger.debug('returned from load_pan_views-AAV')
         self.default_view = self.p_meta['default_view']
 
         self.collections.populate_collections_dict(self.pan_db_path)
@@ -1196,8 +1203,9 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
             self.title = self.p_meta['project_name'].replace('-', ' ').replace('_', ' ')
 
         # add user tree if there is one
+        logger.debug('entring from add_user_tree')
         self.add_user_tree()
-
+        logger.debug('returned from add_user_tree')
 
     def load_full_mode(self):
         if not self.contigs_db_path:

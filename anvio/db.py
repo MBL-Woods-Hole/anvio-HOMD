@@ -4,7 +4,7 @@
     Low-level db operations.
 """
 
-import os
+import os,sys
 import time
 import math
 import numpy
@@ -27,6 +27,11 @@ __version__ = anvio.__version__
 __maintainer__ = "A. Murat Eren"
 __email__ = "a.murat.eren@gmail.com"
 __status__ = "Development"
+
+import logging
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+logger.setLevel(logging.DEBUG)
 
 
 # Converts numpy numbers into storable python types that sqlite3 is expecting
@@ -510,7 +515,10 @@ class DB:
 
         if where_clause:
             where_clause = where_clause.replace('"', "'")
-            response = self._exec('''SELECT COUNT(*) FROM %s WHERE %s''' % (table_name, where_clause))
+            logger.debug('This is the long query -AAV')
+            query = "SELECT COUNT(*) FROM %s WHERE %s" % (table_name, where_clause)
+            logger.debug(query)
+            response = self._exec(query)
         else:
             response = self._exec('''SELECT COUNT(*) FROM %s''' % (table_name))
 

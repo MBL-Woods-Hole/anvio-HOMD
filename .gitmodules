@@ -37,3 +37,6 @@
 [submodule "anvio/data/interactive/lib/JavaScript-MD5"]
 	path = anvio/data/interactive/lib/JavaScript-MD5
 	url = https://github.com/blueimp/JavaScript-MD5.git
+[submodule "jquery-ui"]
+	path = jquery-ui
+	url = https://github.com/jquery/jquery-ui.git

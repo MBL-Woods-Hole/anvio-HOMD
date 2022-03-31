@@ -92,7 +92,7 @@ $(window).resize(function() {
 });
 
 $(document).ready(function() {
-
+    
     $.ajaxPrefilter(function(options) {
         if (request_prefix) {
             options.url = request_prefix + options.url;
@@ -203,11 +203,13 @@ $(document).ready(function() {
 });
 
 function initData() {
+    console.log('initData called')
     $.ajax({
         type: 'GET',
         cache: false,
         url: '/data/init',
         success: function(response) {
+            console.log(response)
             ANVIO_VERSION = response.version;
             mode = response.mode;
             server_mode = response.server_mode;
@@ -1215,7 +1217,8 @@ function buildLayersTable(order, settings)
                     // set default categorical layer type to 'text'
                     // if there are more than 11 unique values and leaf count is less than 300
                     // 301 because layerdata has one extra row for the titles
-                    console.log(layerdata.length);
+                    
+                    console.log('layerdata.length',layerdata.length);
                     var _unique_items = [];
                     for (var _pos = 1; _pos < layerdata.length; _pos++)
                     {

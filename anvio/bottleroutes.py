@@ -61,6 +61,10 @@ progress = terminal.Progress()
 # increase maximum size of form data to 100 MB
 BaseRequest.MEMFILE_MAX = 1024 * 1024 * 100
 
+import logging
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+logger.setLevel(logging.DEBUG)
 
 class BottleApplication(Bottle):
     def __init__(self, interactive, mock_request=None, mock_response=None):
@@ -69,11 +73,13 @@ class BottleApplication(Bottle):
 
         # WSGI for bottle to use
         self._wsgi_for_bottle = "paste"
-
-        A = lambda x: self.args.__dict__[x] if x in self.args.__dict__ else None
-
+        logger.debug('in BottleApplication-AAV')
+        #A = lambda x: self.args.__dict__[x] if x in self.args.__dict__ else None
+        # for testing:
+        A = lambda x: None
         if self.interactive:
             self.args = self.interactive.args
+            A = lambda x: self.args.__dict__[x] if x in self.args.__dict__ else None
             self.read_only = A('read_only')
             self.browser_path = A('browser_path')
             self.export_svg = A('export_svg')
@@ -106,7 +112,7 @@ class BottleApplication(Bottle):
 
         # if there is a contigs database, and scg taxonomy was run on it get an instance
         # of the SCG Taxonomy class early on:
-        if A('contigs_db') and dbops.ContigsDatabase(A('contigs_db')).meta['scg_taxonomy_was_run']:
+        if A and A('contigs_db') and dbops.ContigsDatabase(A('contigs_db')).meta['scg_taxonomy_was_run']:
             self.scg_taxonomy = scgtaxonomyops.SCGTaxonomyEstimatorSingle(argparse.Namespace(contigs_db=self.interactive.contigs_db_path))
         else:
             self.scg_taxonomy = None
