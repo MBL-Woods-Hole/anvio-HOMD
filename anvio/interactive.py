@@ -68,6 +68,53 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
     """The class that loads everything for the interactive interface. Wow. Such glory."""
     def __init__(self, args, external_clustering=None):
         self.args = args
+        #logger.debug('args -- INTERACTIVE')
+        #logger.debug(args)
+        #display pan  Namespace(
+        #additional_layers=None, 
+        # additional_view=None, 
+#         browser_path=None, 
+#         collection_autoload=None, dry_run=False, export_svg=None, 
+#         genomes_storage='pangenomes/Veillonella_HMT780/GENOMES.db', 
+#         ip_address='0.0.0.0', mode='pan', 
+#         pan_db='pangenomes/Veillonella_HMT780/PAN.db', password_protected=False, port_number=None, 
+#         read_only=False, server_only=False, 
+#          skip_auto_ordering=False, 
+#          skip_init_functions=False, 
+#          skip_news=False, 
+#         state_autoload=None, title=None, tree=None, user_server_shutdown=False, view=None, view_data=None)
+        
+        
+#         Namespace(additional_layers=None, 
+#         genomes_storage='/Users/avoorhis/programming/github/pangenomes/Mitis_Group/GENOMES.db', 
+#         items_order=None, mode='pan', 
+#         pan_db='/Users/avoorhis/programming/github/pangenomes/Mitis_Group/PAN.db', 
+#         read_only=True, 
+#         skip_init_functions=True)
+# Default args
+# Namespace(
+# additional_layers=None, 
+# additional_view=None, 
+# browser_path=None, 
+# collection_autoload=None, 
+# dry_run=False, 
+# export_svg=None, 
+# genomes_storage='pangenomes/Veillonella_HMT780/GENOMES.db', 
+# ip_address='0.0.0.0', 
+# pan_db='pangenomes/Veillonella_HMT780/PAN.db', 
+# password_protected=False, 
+# port_number=None, 
+# read_only=False, 
+# server_only=False, 
+# skip_auto_ordering=False, 
+# skip_init_functions=False, 
+# skip_news=False, 
+# state_autoload=None, 
+# title=None, 
+# tree=None, 
+# user_server_shutdown=False, 
+# view=None, 
+# view_data=None       
         self.views = {}
         self.states_table = None
         self.p_meta = {}
@@ -75,6 +122,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         self.anvio_news = None
 
         A = lambda x: args.__dict__[x] if x in args.__dict__ else None
+        #logger.debug(A('genomes_storage'))
         self.mode = A('mode')
         self.pan_db_path = A('pan_db')
         self.profile_db_path = A('profile_db')
@@ -152,16 +200,20 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
         self.displayed_item_names_ordered = None
         self.auxiliary_profile_data_available = False
-
+        
         # get additional data for items and layers, and get layer orders data.
+        #print('t01')
         try:
+            #print('t02')
             a_db_is_found = (os.path.exists(self.pan_db_path) if self.pan_db_path else False) or (os.path.exists(self.profile_db_path) if self.profile_db_path else False)
             self.items_additional_data_keys, self.items_additional_data_dict = TableForItemAdditionalData(self.args).get() if a_db_is_found else ([], {})
             self.layers_additional_data_keys, self.layers_additional_data_dict = TableForLayerAdditionalData(self.args).get_all() if a_db_is_found else ([], {})
+            #logger.debug('interactive - layers_order_data_dict03')
             self.layers_order_data_dict = TableForLayerOrders(self.args).get() if a_db_is_found else {}
         except GenesDBError as e:
             self.items_additional_data_keys, self.items_additional_data_dict = [], {}
             self.layers_additional_data_keys, self.layers_additional_data_dict = [], {}
+            #logger.debug('interactive - layers_order_data_dict04')
             self.layers_order_data_dict = {}
 
             run.warning("Most likely the misc data module is complaining about a missing genes database. If that's the case,\
@@ -169,15 +221,17 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
                          bottleneck sadface.png): %s" % e.clear_text(), header="EXCEPTION OMMITTED (BUT PROBABLY YOU'RE FINE)", lc='yellow')
 
         for group_name in self.layers_additional_data_keys:
+            #print('t03')
             layer_orders = TableForLayerOrders(self.args).update_orders_dict_using_additional_data_dict({},
                 self.layers_additional_data_keys[group_name], self.layers_additional_data_dict[group_name]) if a_db_is_found else {}
+            #logger.debug('interactive - layers_order_data_dict02')
             for order_name in layer_orders:
                 self.layers_order_data_dict['%s :: %s' % (group_name, order_name)] = layer_orders[order_name]
 
         # make sure the mode will be set properly
         if self.collection_name and self.manual_mode:
             raise ConfigError("You can't anvi-interactive in manual mode with a collection name.")
-
+        #print('t04')
         self.external_clustering = external_clustering
 
         self.collections = ccollections.Collections()
@@ -198,13 +252,16 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
             progress.end()
         elif self.inspect_split_name:
+            #print('t05')
             self.split_names_of_interest = set([self.inspect_split_name])
 
         if self.contigs_db_path:
+            #print('t06')
             self.contigs_db_variant = utils.get_db_variant(self.contigs_db_path)
             self.completeness = Completeness(self.contigs_db_path)
             self.collections.populate_collections_dict(self.contigs_db_path)
         else:
+            #print('t07')
             self.contigs_db_variant = None
             self.completeness = None
 
@@ -222,7 +279,8 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
                 self.mode = 'trnaseq'
             else:
                 self.mode = 'full'
-
+        #print('t08')
+        #print('mode: '+self.mode)
         if self.mode in ['full', 'collection', 'trnaseq', 'gene'] and not self.profile_db_path:
             raise ConfigError("You must declare a profile database for this to work :(")
 
@@ -238,6 +296,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
         # here is where the big deal stuff takes place. depending on the mode, we will call
         # the appropriate function for initializing the interafce class.
+        #print('t09')
         self.run.info('Interactive mode', self.mode, mc='green')
         if self.mode == 'manual':
             self.load_manual_mode()
@@ -263,16 +322,19 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         else:
             raise ConfigError("The interactive class is called with a mode that no one knows anything "
                               "about. '%s'... What kind of a mode is that anyway :/" % self.mode)
-
+        #print('t10')
         if self.external_clustering:
+            #print('t10a')
             self.p_meta['clusterings'] = self.clusterings = self.external_clustering['clusterings']
             self.p_meta['available_clusterings'] = list(self.clusterings.keys())
             self.p_meta['default_clustering'] = self.external_clustering['default_clustering']
-
+        #print('t11')
         if not self.state_autoload and 'default' in self.states_table.states:
+            #print('t11a')
             self.state_autoload = 'default'
 
         if not self.collection_autoload and 'default' in self.collections.collections_dict:
+            #print('t12a')
             self.collection_autoload = 'default'
 
         self.check_for_clusterings()
@@ -294,9 +356,10 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         # search tables:
         if self.mode == 'full' or self.mode == 'refine':
             self.init_non_singlecopy_gene_hmm_sources(self.displayed_item_names_ordered, return_each_gene_as_a_layer=self.split_hmm_layers)
-
+        #print('t13')
         # take care of additional layers, and update ordering information for items
         if self.additional_layers_path:
+            #print('t13a')
             self.items_additional_data_dict = utils.get_TAB_delimited_file_as_dictionary(self.additional_layers_path, dict_to_append=self.items_additional_data_dict, assign_none_for_missing=True)
             self.items_additional_data_keys = self.items_additional_data_keys + utils.get_columns_of_TAB_delim_file(self.additional_layers_path)
 
@@ -721,6 +784,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
             # setup a mock splits_basic_info dict
             for split_id in self.displayed_item_names_ordered:
+                #print('getting splits_basic_infot 01')
                 self.splits_basic_info[split_id] = {'length': len(self.split_sequences[split_id]['sequence']),
                                                     'gc_content': utils.get_GC_content_for_sequence(self.split_sequences[split_id]['sequence'])}
 
@@ -905,6 +969,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
             layer_order = clustering.get_newick_tree_data_for_dict(self.views[view]['dict'], transpose=True, zero_fill_missing=True, distance=self.distance, linkage=self.linkage)
             args = argparse.Namespace(profile_db=self.profile_db_path, target_data_table="layer_orders", just_do_it=True)
             TableForLayerOrders(args, r=terminal.Run(verbose=False)).add({f"{view.upper()}": {'data_type': 'newick', 'data_value': layer_order}}, skip_check_names=True)
+            #logger.debug('interactive - layers_order_data_dict01')
             self.layers_order_data_dict = TableForLayerOrders(args, r=terminal.Run(verbose=False)).get()
 
             # add vew tables to the database
@@ -1133,6 +1198,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
 
         # replace it with the new one!
+        #print('getting splits_basic_infot 02')
         self.splits_basic_info = basic_info_for_collection
 
         # additional layers for each bin, INCLUDING completion and redundancy estimates:
@@ -1172,16 +1238,16 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
 
 
     def load_pan_mode(self):
-        logger.debug('in anvio/interactive.py::load_pan_mode(self)-AAV')
+        #logger.debug('in anvio/interactive.py::load_pan_mode(self)-AAV')
         if not self.pan_db_path:
             raise ConfigError("So you want to display a pan genome without a pan database? Anvi'o is "
                                "confused :/")
-        logger.debug('in anvio/interactive.py::Initializing PanSuperClass-AAV')
+        #logger.debug('in anvio/interactive.py::Initializing PanSuperClass-AAV')
         PanSuperclass.__init__(self, self.args)
         
-        logger.debug('entering init_gene_clusters::PanSuperClass is initialized-AAV')
+        #logger.debug('entering init_gene_clusters::PanSuperClass is initialized-AAV')
         self.init_gene_clusters()
-        logger.debug('returned from init_gene_clusters-AAV')
+        #logger.debug('returned from init_gene_clusters-AAV')
         if not self.skip_init_functions:
             self.init_gene_clusters_functions()
             self.init_gene_clusters_functions_summary_dict()
@@ -1189,9 +1255,9 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         PanSuperclass.init_items_additional_data(self)
 
         self.p_meta['item_orders'] = self.item_orders
-        logger.debug('entering load_pan_views-AAV')
+        #logger.debug('entering load_pan_views-AAV')
         self.load_pan_views()
-        logger.debug('returned from load_pan_views-AAV')
+        #logger.debug('returned from load_pan_views-AAV')
         self.default_view = self.p_meta['default_view']
 
         self.collections.populate_collections_dict(self.pan_db_path)
@@ -1203,9 +1269,9 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
             self.title = self.p_meta['project_name'].replace('-', ' ').replace('_', ' ')
 
         # add user tree if there is one
-        logger.debug('entring from add_user_tree')
+        #logger.debug('entring from add_user_tree')
         self.add_user_tree()
-        logger.debug('returned from add_user_tree')
+        #logger.debug('returned from add_user_tree')
 
     def load_full_mode(self):
         if not self.contigs_db_path:
@@ -1443,6 +1509,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         # FIXME: When we are in gene-mode mode, our item names are no longer split names, hence the
         # following dictionaries are useless. Until we find a better way to fill them up with
         # potentially useful information, we can nullify them
+        #print('getting splits_basic_infot 03')
         self.split_lengths_info = dict([(split_name, self.splits_basic_info[split_name]['length']) for split_name in self.splits_basic_info])
         self.splits_basic_info = {}
         self.splits_taxonomy_dict = {}

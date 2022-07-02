@@ -1,8 +1,9 @@
 
 function searchContigs() 
 {
+    
     var svalue = $('#searchValue').val();
-
+    
     if (svalue == "")
     {
         alert("Search value shouldn't be empty.");
@@ -11,7 +12,7 @@ function searchContigs()
     var column = $('#searchLayerList').val();
     search_column = (column == 0) ? 'Item Name' : layerdata[0][column];
     var operator = $('#searchOperator').val();
-    
+    console.log('operator: '+operator)
     if (operator < 6)
     {
         var operator_text = $('#searchOperator option:selected').text();
@@ -33,13 +34,15 @@ function searchContigs()
     search_results = [];
 
     $('#search_result_message').html("Searching...");
-
+console.log('layerdata[1][column]: ')
+console.log('layerdata[1][column]',layerdata[1][column])
     for (var row=1; row < _len; row++)
     {
         if (layerdata[row][column]==null)
             continue;
-
+//console.log(_pre + row + _post)
         if (eval(_pre + row + _post)){
+            console.log('GOT ONE')
             search_results.push({'split': layerdata[row][0], 'value': layerdata[row][column]});
             _counter++;
         }
@@ -73,7 +76,7 @@ function searchFunctions() {
                 search_column = 'Annotation';
 
                 for (var i=0; i < data['results'].length; i++) {
-                    console.log(mode);
+                    console.log("mode: "+mode);
                     if (mode == 'pan') {
                         var _gene_caller_id = data['results'][i][0];
                         var _genome_name    = data['results'][i][1];
@@ -81,7 +84,7 @@ function searchFunctions() {
                         var _accession      = data['results'][i][3];
                         var _annotation     = data['results'][i][4];
                         var _search_term    = data['results'][i][5];
-                        var _split_name     = data['results'][i][6];                        
+                        var _split_name     = data['results'][i][6];
                     }
                     else
                     {
@@ -132,7 +135,7 @@ function filterGeneClusters() {
             parameters[$(input).attr('parameter')] = $(input).val();
         }
     });
-
+    
     if (Object.keys(parameters).length == 0) {
         $('.pan-filter-error').show();
         $('.pan-filter-error').html("You need to select at least one filter.");
