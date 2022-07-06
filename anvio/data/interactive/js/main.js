@@ -203,13 +203,13 @@ $(document).ready(function() {
 });
 
 function initData() {
-    console.log('initData called')
+    console.log('initData called-Y')
     $.ajax({
         type: 'GET',
         cache: false,
         url: '/data/init',
         success: function(response) {
-            console.log(response)
+            
             ANVIO_VERSION = response.version;
             mode = response.mode;
             server_mode = response.server_mode;
@@ -243,7 +243,8 @@ function initData() {
             }
 
             item_lengths = response.item_lengths;
-
+console.log('anvio::initData::response')
+console.log(response)
             var default_tree  = response.item_orders[0];
             var default_order = response.item_orders[1];
             var available_trees = response.item_orders[2];

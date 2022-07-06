@@ -73,7 +73,7 @@ class BottleApplication(Bottle):
 
         # WSGI for bottle to use
         self._wsgi_for_bottle = "paste"
-        logger.debug('in BottleApplication-AAV')
+        #logger.debug('in BottleApplication-AAV')
         #A = lambda x: self.args.__dict__[x] if x in self.args.__dict__ else None
         # for testing:
         A = lambda x: None
@@ -103,11 +103,13 @@ class BottleApplication(Bottle):
 
         # this part is required to inject request and responses from anvi server
         if mock_request or mock_response:
+            logger.debug('bottleapp::in Mock req,res')
             global request
             global response
             request = mock_request
             response = mock_response
         else:
+            logger.debug('bottleapp::No Mock')
             from bottle import response, request
 
         # if there is a contigs database, and scg taxonomy was run on it get an instance
@@ -324,6 +326,7 @@ class BottleApplication(Bottle):
 
 
     def send_data(self, name):
+        logger.debug('send_data =>Name= '+name)
         if name == "init":
             bin_prefix = "Bin_"
             if self.interactive.mode == 'refine':
@@ -354,6 +357,8 @@ class BottleApplication(Bottle):
             if self.interactive.mode == 'full' or self.interactive.mode == 'refine':
                 item_lengths = dict([tuple((c, self.interactive.splits_basic_info[c]['length']),) for c in self.interactive.splits_basic_info])
             elif self.interactive.mode == 'pan':
+                logger.debug('in BottleApplication.send_data()mode==pan::AAV')
+                #logger.debug(self.interactive.gene_clusters)
                 for gene_cluster in self.interactive.gene_clusters:
                     item_lengths[gene_cluster] = 0
                     for genome in self.interactive.gene_clusters[gene_cluster]:
