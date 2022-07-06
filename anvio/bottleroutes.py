@@ -1411,6 +1411,7 @@ class BottleApplication(Bottle):
 
 
     def check_homogeneity_info(self):
+        logger.debug('IN check_homogeneity_info')
         try:
             return json.dumps({'status': 0,
                                'functional_homogeneity_info_is_available': self.interactive.functional_homogeneity_info_is_available,
