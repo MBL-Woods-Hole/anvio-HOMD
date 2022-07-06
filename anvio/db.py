@@ -515,9 +515,9 @@ class DB:
 
         if where_clause:
             where_clause = where_clause.replace('"', "'")
-            logger.debug('This is the long query -AAV')
+            #logger.debug('This is the long query -AAV')
             query = "SELECT COUNT(*) FROM %s WHERE %s" % (table_name, where_clause)
-            logger.debug(query)
+            #logger.debug(query)
             response = self._exec(query)
         else:
             response = self._exec('''SELECT COUNT(*) FROM %s''' % (table_name))

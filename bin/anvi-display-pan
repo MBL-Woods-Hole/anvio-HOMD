@@ -73,7 +73,8 @@ if __name__ == '__main__':
     groupF.add_argument(*anvio.A('user-server-shutdown'), **anvio.K('user-server-shutdown'))
 
     args = parser.get_args(parser, auto_fill_anvio_dbs=True)
-
+    print('**args')
+    print(args)
     try:
         args.mode = 'pan'
         d = interactive.Interactive(args)

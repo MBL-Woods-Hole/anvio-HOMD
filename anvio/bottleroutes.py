@@ -1192,7 +1192,9 @@ class BottleApplication(Bottle):
 
 
     def search_functions(self):
+        
         try:
+            #requested_sources = request.forms.get('sources[]')
             requested_sources = request.forms.getall('sources[]')
 
             if not len(requested_sources):

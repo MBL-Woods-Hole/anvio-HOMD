@@ -1405,45 +1405,46 @@ class PanSuperclass(object):
         self.p_meta = pan_db.meta
 
         self.p_meta['creation_date'] = utils.get_time_to_date(self.p_meta['creation_date']) if 'creation_date' in self.p_meta else 'unknown'
-        logger.debug('Before genome_names-AAV')
+        #logger.debug('Before genome_names-AAV')
         self.p_meta['genome_names'] = sorted([s.strip() for s in self.p_meta['external_genome_names'].split(',') + self.p_meta['internal_genome_names'].split(',') if s])
-        logger.debug('After genome_names-AAV')
+        #logger.debug('After genome_names-AAV')
         self.p_meta['num_genomes'] = len(self.p_meta['genome_names'])
         self.genome_names = self.p_meta['genome_names']
         self.gene_clusters_gene_alignments_available = self.p_meta['gene_alignments_computed']
-        logger.debug('pan_db_path-AAV')
-        logger.debug(self.pan_db_path)
+        #logger.debug('pan_db_path-AAV')
+        #logger.debug(self.pan_db_path)
         self.p_meta['available_item_orders'], self.item_orders = get_item_orders_from_db(self.pan_db_path)
-        logger.debug('After available_item_orders-AAV')
-        logger.debug("length self.p_meta['available_item_orders'] "+str(len(self.p_meta['available_item_orders'])))
+        #logger.debug('After available_item_orders-AAV')
+        #logger.debug("length self.p_meta['available_item_orders'] "+str(len(self.p_meta['available_item_orders'])))
         #logger.debug(self.p_meta['available_item_orders'])
-        logger.debug("length self.item_orders "+str(len(self.item_orders)))
+        #logger.debug("length self.item_orders "+str(len(self.item_orders)))
         #logger.debug(self.item_orders)
         # recover all gene cluster names so others can access to this information
         # without having to initialize anything
         self.gene_cluster_names = set(pan_db.db.get_single_column_from_table(t.pan_gene_clusters_table_name, 'gene_cluster_id'))
-        logger.debug('Back from setting gene_cluster_names--AAV')
+        #logger.debug('Back from setting gene_cluster_names--AAV')
         if not self.gene_cluster_names:
             raise ConfigError("You seem to have no gene clusters in this pan database :/ This is weird,\
                                sad, and curious at the same time. Probably you will have to go back to\
                                previous outputs of your worklow to make sure everything worked out properly.")
         else:
-            logger.debug('We have pan gene_cluster_names-AAV')
+            #logger.debug('We have pan gene_cluster_names-AAV')
+            pass
         pan_db.disconnect()
 
         # create an instance of states table
         self.states_table = TablesForStates(self.pan_db_path)
-        logger.debug('states table-AAV')
+        #logger.debug('states table-AAV')
         #logger.debug(self.states_table)
-        logger.debug('pan_db_path table-AAV')
-        logger.debug(self.pan_db_path)
+        #logger.debug('pan_db_path table-AAV')
+        #logger.debug(self.pan_db_path)
         
         
         
         self.progress.end()
 
         if self.genomes_storage_path:
-            logger.debug('We have pan genomes_storage_path-AAV')
+            #logger.debug('We have pan genomes_storage_path-AAV')
             self.genomes_storage = genomestorage.GenomeStorage(self.genomes_storage_path,
                                                                self.p_meta['genomes_storage_hash'],
                                                                genome_names_to_focus=self.p_meta['genome_names'],
@@ -1452,7 +1453,7 @@ class PanSuperclass(object):
                                                                progress=self.progress)
             self.genomes_storage_is_available = True
             self.genomes_storage_has_functions = self.genomes_storage.functions_are_available
-            logger.debug('pan genomes_storage_path END -AAV')
+            #logger.debug('pan genomes_storage_path END -AAV')
         else:
             self.run.warning("The pan database is being initialized without a genomes storage.")
 
@@ -1463,7 +1464,7 @@ class PanSuperclass(object):
                           F(self.combined_homogeneity_info_is_available)),
                       mc="cyan")
                       
-        logger.debug('End of PanSuperclass -AAV')
+        #logger.debug('End of PanSuperclass -AAV')
 
 
     def get_sequences_for_gene_clusters(self, gene_clusters_dict=None, gene_cluster_names=set([]), skip_alignments=False, report_DNA_sequences=False):

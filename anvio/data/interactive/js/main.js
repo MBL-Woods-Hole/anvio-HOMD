@@ -1524,6 +1524,7 @@ function serializeSettings(use_layer_names) {
         state['views'] = {};
         for (var view_key in views)
         {
+            console.log('view_key: '+view_key)
             state['views'][view_key] = {};
             for (var key in views[view_key])
             {
