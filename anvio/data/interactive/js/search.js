@@ -34,8 +34,7 @@ function searchContigs()
     search_results = [];
 
     $('#search_result_message').html("Searching...");
-console.log('layerdata[1][column]: ')
-console.log('layerdata[1][column]',layerdata[1][column])
+
     for (var row=1; row < _len; row++)
     {
         if (layerdata[row][column]==null)
@@ -58,7 +57,7 @@ function searchFunctions() {
     $('#functions_sources_list input:checkbox:checked').each((i, v) => {
         requested_sources.push($(v).val());
     });
-
+    console.log('in js:search.js::searchFunctions()')
     $.ajax({
         type: 'POST',
         cache: false,
@@ -74,7 +73,8 @@ function searchFunctions() {
 
                 search_results = [];
                 search_column = 'Annotation';
-
+                console.log('data[requested_sources] ')
+                console.log(data['requested_sources'])
                 for (var i=0; i < data['results'].length; i++) {
                     console.log("mode: "+mode);
                     if (mode == 'pan') {

@@ -78,7 +78,8 @@ if __name__ == '__main__':
     try:
         args.mode = 'pan'
         d = interactive.Interactive(args)
-
+        print('Default d(in anvi-display-pan))')
+        print(d)
         args.port_number = utils.get_port_num(args.port_number, args.ip_address, run=run)
     except ConfigError as e:
         print(e)
@@ -96,8 +97,7 @@ if __name__ == '__main__':
     if args.dry_run:
         run.info_single('Dry run? Kthxbai.', nl_after=1, nl_before=1)
         sys.exit()
-    print('Default d')
-    print(d)
+    
     app = BottleApplication(d)
     #
     app.run_application(args.ip_address, args.port_number)

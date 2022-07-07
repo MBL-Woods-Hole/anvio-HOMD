@@ -103,7 +103,7 @@ class BottleApplication(Bottle):
 
         # this part is required to inject request and responses from anvi server
         if mock_request or mock_response:
-            logger.debug('bottleapp::in Mock req,res')
+            logger.debug('bottleapp::in Mock req, res')
             global request
             global response
             request = mock_request
@@ -1200,8 +1200,12 @@ class BottleApplication(Bottle):
         
         try:
             #requested_sources = request.forms.get('sources[]')
-            requested_sources = request.forms.getall('sources[]')
-
+            # logger.debug('gene_clusters_function_sources')
+#             logger.debug(list(self.interactive.gene_clusters_function_sources))
+#             logger.debug(request.forms)
+#             logger.debug(request.forms.get('sources'))
+#             requested_sources = request.forms.getall('sources[]')
+            requested_sources =[]
             if not len(requested_sources):
                 requested_sources = None
 

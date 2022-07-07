@@ -120,7 +120,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         self.p_meta = {}
         self.title = 'Unknown Project'
         self.anvio_news = None
-        logger.debug('in anvio.Interactive-AAV')
+        logger.debug('\nin anvio.Interactive-AAV')
         A = lambda x: args.__dict__[x] if x in args.__dict__ else None
         #logger.debug(A('genomes_storage'))
         self.mode = A('mode')
@@ -368,7 +368,9 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         self.finalize_view_data()
         self.get_anvio_news()
 
-
+    def __str__(self):
+        return str(self.__class__) + ": " + str(self.__dict__['args'])
+        
     def set_displayed_item_names(self):
         """Sets the master list of names .. UNLESS we are in manual or functional mode, in which case names
            will be set within corresponding functions"""
