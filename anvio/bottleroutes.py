@@ -103,13 +103,13 @@ class BottleApplication(Bottle):
 
         # this part is required to inject request and responses from anvi server
         if mock_request or mock_response:
-            logger.debug('bottleapp::in Mock req, res')
+            #logger.debug('bottleapp::in Mock req, res')
             global request
             global response
             request = mock_request
             response = mock_response
         else:
-            logger.debug('bottleapp::No Mock')
+            #logger.debug('bottleapp::No Mock')
             from bottle import response, request
 
         # if there is a contigs database, and scg taxonomy was run on it get an instance
@@ -196,7 +196,7 @@ class BottleApplication(Bottle):
         self.route('/data/get_metabolism',                     callback=self.get_metabolism)
 
 
-    def run_application(self, ip, port):
+    def run_application(self, ip, port=8000):
         # check for the wsgi module bottle will use.
         if not importlib.util.find_spec(self._wsgi_for_bottle):
             raise ConfigError("Anvi'o uses `%(wsgi)s` as a web server gateway interface, and you don't seem to have it. Which "
@@ -357,7 +357,7 @@ class BottleApplication(Bottle):
             if self.interactive.mode == 'full' or self.interactive.mode == 'refine':
                 item_lengths = dict([tuple((c, self.interactive.splits_basic_info[c]['length']),) for c in self.interactive.splits_basic_info])
             elif self.interactive.mode == 'pan':
-                logger.debug('in BottleApplication.send_data()mode==pan::AAV')
+                #logger.debug('in BottleApplication.send_data()mode==pan::AAV')
                 #logger.debug(self.interactive.gene_clusters)
                 for gene_cluster in self.interactive.gene_clusters:
                     item_lengths[gene_cluster] = 0
@@ -1415,7 +1415,7 @@ class BottleApplication(Bottle):
 
 
     def check_homogeneity_info(self):
-        logger.debug('IN check_homogeneity_info')
+        #logger.debug('IN check_homogeneity_info')
         try:
             return json.dumps({'status': 0,
                                'functional_homogeneity_info_is_available': self.interactive.functional_homogeneity_info_is_available,
