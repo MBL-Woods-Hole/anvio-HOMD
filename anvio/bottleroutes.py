@@ -39,6 +39,7 @@ import anvio.summarizer as summarizer
 import anvio.filesnpaths as filesnpaths
 import anvio.taxonomyops.scg as scgtaxonomyops
 import anvio.auxiliarydataops as auxiliarydataops
+from django.conf import settings
 
 from anvio.serverAPI import AnviServerAPI
 from anvio.errors import RefineError, ConfigError
@@ -214,10 +215,10 @@ class BottleApplication(Bottle):
                 with terminal.SuppressAllOutput():
                     server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': True, 'server': self._wsgi_for_bottle})
                     server_process.start()
-            
-            url = "http://%s:%d" % (ip, port)
-            #else:   # vamps2.mbl.edu/anviserver1
-            #    url = "https://%s" % (ip)
+            if settings.ENV == 'production':
+                url = "https://%s:%d" % (ip, port)
+            else:   # vamps2.mbl.edu/anviserver1
+                url = "http://%s:%d" % (ip, port)
 
             if self.export_svg:
                 try:

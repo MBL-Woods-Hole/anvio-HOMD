@@ -150,10 +150,10 @@ class Interactive():
             print('got bottleapp')
             #port = 80 #self.args.port_number
             port = self.args.port_number
-            if settings.ENV == 'development':
-                 app.run_application(settings.PAN_IP_ADDRESS, port)
+            if settings.ENV == 'production':
+                 app.run_application(settings.PAN_IP_ADDRESS, 8001)
             else:
-                app.run_application(settings.PAN_IP_ADDRESS, 8001)
+                app.run_application(settings.PAN_IP_ADDRESS, port)
             #return (app, self.args)
     
 if __name__ == '__main__':
