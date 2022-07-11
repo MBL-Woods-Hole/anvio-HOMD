@@ -72,7 +72,7 @@ class Interactive():
         
         else:
         
-        
+            
             # setup the command line user interface
             print('in displayAV run()')
             parser = argparse.ArgumentParser(description=__description__)
@@ -148,8 +148,12 @@ class Interactive():
             print(d)
             app = BottleApplication(d)
             print('got bottleapp')
-            
-            app.run_application(settings.PAN_IP_ADDRESS, self.args.port_number)
+            #port = 80 #self.args.port_number
+            port = self.args.port_number
+            if settings.PAN_IP_ADDRESS == 'localhost':
+                 app.run_application(settings.PAN_IP_ADDRESS, port)
+            else:
+                app.run_application(settings.PAN_IP_ADDRESS, 8001)
             #return (app, self.args)
     
 if __name__ == '__main__':
