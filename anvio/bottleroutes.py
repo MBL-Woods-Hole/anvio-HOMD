@@ -214,10 +214,10 @@ class BottleApplication(Bottle):
                 with terminal.SuppressAllOutput():
                     server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': True, 'server': self._wsgi_for_bottle})
                     server_process.start()
-            if ip == 'localhost':
-                url = "http://%s:%d" % (ip, port)
-            else:   # vamps2.mbl.edu/anviserver1
-                url = "https://%s" % (ip)
+            
+            url = "http://%s:%d" % (ip, port)
+            #else:   # vamps2.mbl.edu/anviserver1
+            #    url = "https://%s" % (ip)
 
             if self.export_svg:
                 try:
