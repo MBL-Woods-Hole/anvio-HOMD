@@ -153,7 +153,7 @@ class Interactive():
             if settings.PAN_IP_ADDRESS == 'localhost':
                  app.run_application(settings.PAN_IP_ADDRESS, port)
             else:
-                app.run_application(settings.PAN_IP_ADDRESS, 8001)
+                app.run_application(settings.PAN_IP_ADDRESS, 0)
             #return (app, self.args)
     
 if __name__ == '__main__':
