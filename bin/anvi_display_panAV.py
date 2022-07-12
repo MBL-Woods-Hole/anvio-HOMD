@@ -151,6 +151,7 @@ class Interactive():
             #port = 80 #self.args.port_number
             port = self.args.port_number
             if settings.ENV == 'production':
+                 # production == localhost  try change in bottleapp
                  app.run_application(settings.PAN_IP_ADDRESS, 8001)
             else:
                 app.run_application(settings.PAN_IP_ADDRESS, port)

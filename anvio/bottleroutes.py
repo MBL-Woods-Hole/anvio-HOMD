@@ -216,7 +216,8 @@ class BottleApplication(Bottle):
                     server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': True, 'server': self._wsgi_for_bottle})
                     server_process.start()
             if settings.ENV == 'production':
-                url = "https://%s:%d" % (ip, port)
+                #url = "http://%s:%d" % (ip, port)
+                url = "https://vamps.mbl.edu/anviserver1"
             else:   # vamps2.mbl.edu/anviserver1
                 url = "http://%s:%d" % (ip, port)
 
