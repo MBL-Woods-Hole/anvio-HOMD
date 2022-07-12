@@ -269,8 +269,9 @@ class BottleApplication(Bottle):
             homepage = 'metabolism.html'
         elif self.interactive.mode == 'inspect':
             redirect('/app/charts.html?id=%s&show_snvs=true&rand=%s' % (self.interactive.inspect_split_name, self.random_hash(8)))
-
-        redirect('/app/%s?rand=%s' % (homepage, self.random_hash(8)))
+        app = '/app/%s?rand=%s' % (homepage, self.random_hash(8))
+        run.info_single("Redirecting: ",app)
+        redirect(app)
 
 
     def send_static(self, filename):
