@@ -217,7 +217,7 @@ class BottleApplication(Bottle):
                     server_process.start()
             if settings.ENV == 'production':
                 #url = "http://%s:%d" % (ip, port)
-                url = "https://vamps.mbl.edu/anviserver1"
+                url = "https://vamps.mbl.edu/anviserver1/"
             else:   # vamps2.mbl.edu/anviserver1
                 url = "http://%s:%d" % (ip, port)
 
