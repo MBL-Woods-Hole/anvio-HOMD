@@ -19,6 +19,10 @@ from os.path import dirname
 print(dirname(__file__))
 from anvio.errors import ConfigError, FilesNPathsError, DictIOError, HDF5Error
 
+import logging
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+logger.setLevel(logging.DEBUG)
 
 __author__ = "Developers of anvi'o (see AUTHORS.txt)"
 __copyright__ = "Copyleft 2015-2018, the Meren Lab (http://merenlab.org/)"
@@ -153,8 +157,11 @@ class Interactive():
             if settings.ENV == 'production':
                  # production == localhost  try change in bottleapp
                  app.run_application(settings.PAN_IP_ADDRESS, 8001)
+                 
             else:
                 app.run_application(settings.PAN_IP_ADDRESS, port)
+                
+            
             #return (app, self.args)
     
 if __name__ == '__main__':

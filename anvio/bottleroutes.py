@@ -208,19 +208,28 @@ class BottleApplication(Bottle):
 
         try:
             # allow output to terminal when debugging
-            if anvio.DEBUG:
-                server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': False, 'server': self._wsgi_for_bottle})
-                server_process.start()
-            else:
-                with terminal.SuppressAllOutput():
-                    server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': True, 'server': self._wsgi_for_bottle})
+            if hasattr('settings', 'ENV') and settings.ENV == 'production':
+                url = "https://vamps.mbl.edu/anviserver1"
+                if anvio.DEBUG:
+                    server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver1', 'port': 8001, 'quiet': False, 'server': self._wsgi_for_bottle})
                     server_process.start()
-            if settings.ENV == 'production':
+                else:
+                    with terminal.SuppressAllOutput():
+                        server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver1', 'port': 8001, 'quiet': True, 'server': self._wsgi_for_bottle})
+                        server_process.start()
+            
                 #url = "http://%s:%d" % (ip, port)
-                url = "https://vamps.mbl.edu/anviserver1/"
+                
             else:   # vamps2.mbl.edu/anviserver1
                 url = "http://%s:%d" % (ip, port)
-
+                if anvio.DEBUG:
+                    server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': False, 'server': self._wsgi_for_bottle})
+                    server_process.start()
+                else:
+                    with terminal.SuppressAllOutput():
+                        server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': True, 'server': self._wsgi_for_bottle})
+                        server_process.start()
+            print('url: '+url)
             if self.export_svg:
                 try:
                     utils.run_selenium_and_export_svg("/".join([url, "app/index.html"]),
@@ -362,8 +371,6 @@ class BottleApplication(Bottle):
             if self.interactive.mode == 'full' or self.interactive.mode == 'refine':
                 item_lengths = dict([tuple((c, self.interactive.splits_basic_info[c]['length']),) for c in self.interactive.splits_basic_info])
             elif self.interactive.mode == 'pan':
-                #logger.debug('in BottleApplication.send_data()mode==pan::AAV')
-                #logger.debug(self.interactive.gene_clusters)
                 for gene_cluster in self.interactive.gene_clusters:
                     item_lengths[gene_cluster] = 0
                     for genome in self.interactive.gene_clusters[gene_cluster]:
