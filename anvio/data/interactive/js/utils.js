@@ -119,16 +119,22 @@ function fire_up_ncbi_blast(sequence, program, database, target)
 //--------------------------------------------------------------------------------------------------
 
 function generate_inspect_link(options) {
+    console.log('generate_inspect_link::options')
+    console.log(options)
     let show_snvs = options.show_snvs;
     let type = options.type;
     let item_name = options.item_name;
 
     let url = window.location.href.split('?')[0];
+    console.log('generate_inspect_link::window.location.href: '+window.location.href)
+    console.log('pre.url '+url)
     let new_url = "";
-
+    console.log('In generate_inspect_link')
+    console.log('type: '+type)
     if (self == top) {
         // local anvio
-
+        console.log('local anvio')
+        console.log('In generate_inspect_link::local anvio')
         if (url.endsWith('index.html')) {
             // on index page
             if (type == 'inspect_split') {
@@ -146,6 +152,7 @@ function generate_inspect_link(options) {
         }
         else
         {
+            
             // on charts or gene cluster page, so changing the ?id= part enough
             new_url =  url + '?id=' + item_name;
 
@@ -160,7 +167,9 @@ function generate_inspect_link(options) {
     else
     {
         // anvi server
-        if (url.endsWith('/inspect') || url.endsWith('/geneclusters')) {
+        console.log('ELSE anvi-server????')
+        console.log('In generate_inspect_link:anvi-server')
+        if (url.indexOf('inspect') != -1 || url.indexOf('geneclusters') != -1) {
             // on charts or gene cluster page
             new_url = url;
         }
@@ -182,7 +191,7 @@ function generate_inspect_link(options) {
     {
         new_url = new_url + '&show_snvs=' + show_snvs;
     }
-
+    console.log('New url: '+new_url)
     return new_url;
 }
 

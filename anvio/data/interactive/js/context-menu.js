@@ -106,6 +106,9 @@ ContextMenu = function(options) {
         'inspect_geneclusters': {
             'title': 'Inspect gene cluster',
             'action': (node, layer, param) => {
+                console.log(node)
+                console.log(layer)
+                console.log(param)
                 this.menu_items['inspect']['action'](node, layer, 'geneclusters');
             }
         },

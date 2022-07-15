@@ -1152,6 +1152,7 @@ class BottleApplication(Bottle):
 
 
     def get_AA_sequences_for_gene_cluster(self, gene_cluster_name):
+        logger.debug('In get_AA_sequences_for_gene_cluster')
         data = {}
 
         if gene_cluster_name not in self.interactive.gene_clusters:
@@ -1169,6 +1170,7 @@ class BottleApplication(Bottle):
 
 
     def inspect_gene_cluster(self, order_name, gene_cluster_name):
+        logger.debug('In inspect_gene_cluster')
         data = {'gene_cluster_name': gene_cluster_name,
                 'genomes': [],
                 'index': None,

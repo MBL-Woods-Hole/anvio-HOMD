@@ -120,7 +120,7 @@ class Interactive(ProfileSuperclass, PanSuperclass, ContigsSuperclass):
         self.p_meta = {}
         self.title = 'Unknown Project'
         self.anvio_news = None
-        logger.debug('\nin anvio.Interactive-AAV')
+        logger.debug('In anvio.Interactive-AAV')
         A = lambda x: args.__dict__[x] if x in args.__dict__ else None
         #logger.debug(A('genomes_storage'))
         self.mode = A('mode')

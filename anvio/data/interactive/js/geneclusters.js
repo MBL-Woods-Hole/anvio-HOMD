@@ -35,6 +35,7 @@ var gene_cluster_data;
 
 
 function loadAll() {
+    console.log('in js/geneclusters::loadAll()')
     $.ajaxPrefilter(function(options) {
         if (request_prefix) {
             options.url = request_prefix + options.url;
@@ -81,9 +82,13 @@ function loadAll() {
             }
 
             if(next_gene_cluster_name)
+                url = generate_inspect_link({'type': 'geneclusters', 'item_name': next_gene_cluster_name, 'show_snvs': false})
+                console.log('IN js/genecluster1::url: '+url)
                 next_str = '<a onclick="localStorage.state = JSON.stringify(state);" href="' + generate_inspect_link({'type': 'geneclusters', 'item_name': next_gene_cluster_name, 'show_snvs': false}) +'" '+target_str+'> | next &gt;&gt;&gt;</a>';
 
             if(previous_gene_cluster_name)
+                url = generate_inspect_link({'type': 'geneclusters', 'item_name': previous_gene_cluster_name, 'show_snvs': false})
+                console.log('IN js/genecluster2::url: '+url)
                 prev_str = '<a onclick="localStorage.state = JSON.stringify(state);" href="' + generate_inspect_link({'type': 'geneclusters', 'item_name': previous_gene_cluster_name, 'show_snvs': false}) +'" '+target_str+'>&lt;&lt;&lt; prev | </a>';
 
             document.getElementById("header").innerHTML = "<strong>" + gene_cluster_name + "</strong> with " + gene_caller_ids.length + " genes detailed <br /><small><small>" + prev_str + position + next_str + "</small></small>";
