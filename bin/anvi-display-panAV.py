@@ -159,7 +159,7 @@ class Interactive():
             app.run_application(self.args.ip_address, port)
 
 
-            #return (app, self.args)
+            return (app, self.args)
 
 if __name__ == '__main__':
 
