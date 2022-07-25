@@ -6,7 +6,7 @@
 import os
 import sys
 import ssl
-import pyyaml as yaml
+import yaml
 import gzip
 import time
 import copy
