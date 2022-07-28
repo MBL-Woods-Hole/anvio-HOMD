@@ -152,14 +152,14 @@ class Interactive():
             print(d)
             app = BottleApplication(d)
             logger.debug('got bottleapp')
-            #port = 80 #self.args.port_number
-            port = self.args.port_number
-            logger.debug('URL: http://'+self.args.ip_address+':'+str(port) )
+            
+            
+            logger.debug('URL: http://'+self.args.ip_address+':'+str(self.args.port_number) )
+            
             #http://0.0.0.0:8081/app/index.html?rand=e621857f
-            app.run_application(self.args.ip_address, port)
-
-
             return (app, self.args)
+            
+    
 
 if __name__ == '__main__':
 
@@ -167,7 +167,8 @@ if __name__ == '__main__':
 
     I = Interactive()
     (app, args) = I.run_app()
-
+    #app.run_application(args.ip_address, args.port_number)
+    application = app.default_app()
     #HttpResponse(app.get_news(), content_type='application/json')
 
     #app.run_application(args.ip_address, args.port_number)

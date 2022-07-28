@@ -25,7 +25,7 @@ import importlib
 from hashlib import md5
 from multiprocessing import Process
 from ete3 import Tree
-from bottle import Bottle
+from bottle import Bottle, default_app
 from bottle import BaseRequest
 from bottle import redirect, static_file
 
@@ -77,6 +77,7 @@ class BottleApplication(Bottle):
         #logger.debug('in BottleApplication-AAV')
         #A = lambda x: self.args.__dict__[x] if x in self.args.__dict__ else None
         # for testing:
+        self.default_app = default_app
         A = lambda x: None
         if self.interactive:
             self.args = self.interactive.args
