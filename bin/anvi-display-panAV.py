@@ -168,7 +168,7 @@ if __name__ == '__main__':
     I = Interactive()
     (app, args) = I.run_app()
     #app.run_application(args.ip_address, args.port_number)
-    application = app.default_app()
+    #application = app.default_app()
     #HttpResponse(app.get_news(), content_type='application/json')
 
-    #app.run_application(args.ip_address, args.port_number)
+    app.run_application(args.ip_address, args.port_number)
