@@ -210,19 +210,19 @@ class BottleApplication(Bottle):
         try:
             # allow output to terminal when debugging
             if hasattr('settings', 'ENV') and settings.ENV == 'production':
-                url = "https://vamps.mbl.edu/anviserver1"
+                url = "https://vamps.mbl.edu/anviserver/"
                 if anvio.DEBUG:
-                    server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver1', 'port': 8001, 'quiet': False, 'server': self._wsgi_for_bottle})
+                    server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver/', 'port': 8001, 'quiet': False, 'server': self._wsgi_for_bottle})
                     server_process.start()
                 else:
                     with terminal.SuppressAllOutput():
-                        server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver1', 'port': 8001, 'quiet': True, 'server': self._wsgi_for_bottle})
+                        server_process = Process(target=self.run, kwargs={'host': 'https://vamps.mbl.edu/anviserver/', 'port': 8001, 'quiet': True, 'server': self._wsgi_for_bottle})
                         server_process.start()
             
                 #url = "http://%s:%d" % (ip, port)
                 
             else:   # vamps2.mbl.edu/anviserver1
-                url = "http://%s:%d" % (ip, port)
+                url = "http://%s:%d/" % (ip, port)
                 if anvio.DEBUG:
                     server_process = Process(target=self.run, kwargs={'host': ip, 'port': port, 'quiet': False, 'server': self._wsgi_for_bottle})
                     server_process.start()
