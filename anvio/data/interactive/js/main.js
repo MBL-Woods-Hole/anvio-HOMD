@@ -203,7 +203,7 @@ $(document).ready(function() {
 });
 
 function initData() {
-    console.log('initData called-Y')
+    //console.log('initData called-Y')
     $.ajax({
         type: 'GET',
         cache: false,
@@ -243,8 +243,7 @@ function initData() {
             }
 
             item_lengths = response.item_lengths;
-console.log('anvio::initData::response')
-console.log(response)
+
             var default_tree  = response.item_orders[0];
             var default_order = response.item_orders[1];
             var available_trees = response.item_orders[2];
@@ -1219,7 +1218,6 @@ function buildLayersTable(order, settings)
                     // if there are more than 11 unique values and leaf count is less than 300
                     // 301 because layerdata has one extra row for the titles
                     
-                    console.log('layerdata.length',layerdata.length);
                     var _unique_items = [];
                     for (var _pos = 1; _pos < layerdata.length; _pos++)
                     {
@@ -1525,7 +1523,6 @@ function serializeSettings(use_layer_names) {
         state['views'] = {};
         for (var view_key in views)
         {
-            console.log('view_key: '+view_key)
             state['views'][view_key] = {};
             for (var key in views[view_key])
             {
@@ -1797,7 +1794,6 @@ function showGeneClusterDetails(bin_id, updateOnly) {
         return;
 
     let bin_info = bins.ExportBin(bin_id);
-    console.log(bin_info);
 
     $.ajax({
         type: 'POST',
@@ -2362,7 +2358,7 @@ function loadState()
                             waitingDialog.hide();
                         },
                         error: function(response){
-                            console.log(response)
+                            //console.log(response)
                             alert('looks like the server failed to retrieve your state data :( consider rebooting your interactive session with the --debug flag for additional insights. ')
                         }
                     });

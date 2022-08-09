@@ -12,7 +12,7 @@ function searchContigs()
     var column = $('#searchLayerList').val();
     search_column = (column == 0) ? 'Item Name' : layerdata[0][column];
     var operator = $('#searchOperator').val();
-    console.log('operator: '+operator)
+    //console.log('operator: '+operator)
     if (operator < 6)
     {
         var operator_text = $('#searchOperator option:selected').text();
@@ -39,9 +39,9 @@ function searchContigs()
     {
         if (layerdata[row][column]==null)
             continue;
-//console.log(_pre + row + _post)
+
         if (eval(_pre + row + _post)){
-            console.log('GOT ONE')
+            //console.log('GOT ONE')
             search_results.push({'split': layerdata[row][0], 'value': layerdata[row][column]});
             _counter++;
         }
@@ -57,7 +57,7 @@ function searchFunctions() {
     $('#functions_sources_list input:checkbox:checked').each((i, v) => {
         requested_sources.push($(v).val());
     });
-    console.log('in js:search.js::searchFunctions()')
+    //console.log('in js:search.js::searchFunctions()')
     $.ajax({
         type: 'POST',
         cache: false,
@@ -73,10 +73,10 @@ function searchFunctions() {
 
                 search_results = [];
                 search_column = 'Annotation';
-                console.log('data[requested_sources] ')
-                console.log(data['requested_sources'])
+                //console.log('data[requested_sources] ')
+                //console.log(data['requested_sources'])
                 for (var i=0; i < data['results'].length; i++) {
-                    console.log("mode: "+mode);
+                    //console.log("mode: "+mode);
                     if (mode == 'pan') {
                         var _gene_caller_id = data['results'][i][0];
                         var _genome_name    = data['results'][i][1];
