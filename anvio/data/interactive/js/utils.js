@@ -192,10 +192,11 @@ function generate_inspect_link(options) {
     {
         new_url = new_url + '&show_snvs=' + show_snvs;
     }
+    console.log('New url1: '+new_url)
     // http://localhost/anviserver/pangenomes/Veillonella_Atypica
     // http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00000759
     new_url = 'http://localhost/Veillonella_Atypica/inspect_geneclusters?id=GC_00000759'
-    console.log('New url: '+new_url)
+    console.log('New url2: '+new_url)
     
     return new_url;
 }
