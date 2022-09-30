@@ -18,6 +18,7 @@
  */
 
 
+
 function emit(name, element=document.body) {
     let event = new Event(name);
     element.dispatchEvent(event);
@@ -126,8 +127,16 @@ function generate_inspect_link(options) {
     let item_name = options.item_name;
 
     let url = window.location.href.split('?')[0];
+    const url2 = new URL(url);
+
+    let url_base = url.split()
+    let req_prefix = window.location.href.split('=')[1];
+    let req_base = url2.protocol+'//'+url2.hostname
+    let pangenome = req_prefix.split('/')[2]
     console.log('generate_inspect_link::window.location.href: '+window.location.href)
     console.log('pre.url '+url)
+    console.log(url2.protocol+'==='+url2.hostname)
+    console.log('pangenome: '+pangenome)
     let new_url = "";
     console.log('In generate_inspect_link')
     console.log('type: '+type)
@@ -180,12 +189,14 @@ function generate_inspect_link(options) {
             new_url = url + '/' + type;
         }
 
-        new_url = new_url + '?id=' + item_name;
-
+        //new_url = new_url + '?id=' + item_name;
+        new_url = req_base +'/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
         var view_key = request_prefix.substr(request_prefix.lastIndexOf('/') + 1, request_prefix.length);
+        
         if (view_key && view_key != 'no_view_key') {
             new_url = new_url + '&view_key=' + view_key;
         }
+        
     }
 
     if (type != 'inspect_geneclusters')
@@ -195,7 +206,11 @@ function generate_inspect_link(options) {
     console.log('New url1: '+new_url)
     // http://localhost/anviserver/pangenomes/Veillonella_Atypica
     // http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00000759
-    new_url = 'http://localhost/Veillonella_Atypica/inspect_geneclusters?id=GC_00000759'
+    //turn https://vamps.mbl.edu/static/interactive/index.html/inspect_geneclusters?id=GC_00001077
+    // into https://vamps.mbl.edu/<pangenome>/inspect_geneclusters?id=GC_00001077
+    //turn http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00001077
+    // into http://localhost/<pangenome>/inspect_geneclusters?id=GC_00001077
+    //new_url = 'http://localhost/Veillonella_Atypica/inspect_geneclusters?id=GC_00000759'
     console.log('New url2: '+new_url)
     
     return new_url;
