@@ -190,7 +190,12 @@ function generate_inspect_link(options) {
         }
 
         //new_url = new_url + '?id=' + item_name;
-        new_url = req_base +'/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
+        if(url2.hostname === 'vamps.mbl.edu'){
+            new_url = req_base +'/anviserver/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
+        }else{
+            // localhost
+            new_url = req_base +'/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
+        }
         var view_key = request_prefix.substr(request_prefix.lastIndexOf('/') + 1, request_prefix.length);
         
         if (view_key && view_key != 'no_view_key') {
