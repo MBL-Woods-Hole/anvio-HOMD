@@ -169,6 +169,7 @@ function generate_inspect_link(options) {
         // anvi server
         console.log('ELSE anvi-server????')
         console.log('In generate_inspect_link:anvi-server')
+         console.log('url '+url)
         if (url.indexOf('inspect') != -1 || url.indexOf('geneclusters') != -1) {
             // on charts or gene cluster page
             new_url = url;
@@ -182,7 +183,7 @@ function generate_inspect_link(options) {
         new_url = new_url + '?id=' + item_name;
 
         var view_key = request_prefix.substr(request_prefix.lastIndexOf('/') + 1, request_prefix.length);
-        if (view_key != 'no_view_key') {
+        if (view_key && view_key != 'no_view_key') {
             new_url = new_url + '&view_key=' + view_key;
         }
     }
@@ -191,7 +192,11 @@ function generate_inspect_link(options) {
     {
         new_url = new_url + '&show_snvs=' + show_snvs;
     }
+    // http://localhost/anviserver/pangenomes/Veillonella_Atypica
+    // http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00000759
+    new_url = 'http://localhost/Veillonella_Atypica/inspect_geneclusters?id=GC_00000759'
     console.log('New url: '+new_url)
+    
     return new_url;
 }
 
