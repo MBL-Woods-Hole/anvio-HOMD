@@ -341,7 +341,7 @@ class BottleApplication(Bottle):
 
 
     def send_data(self, name):
-        logger.debug('send_data =>Name= '+name)
+        #logger.debug('send_data =>Name= '+name)
         if name == "init":
             bin_prefix = "Bin_"
             if self.interactive.mode == 'refine':
@@ -1153,7 +1153,7 @@ class BottleApplication(Bottle):
 
 
     def get_AA_sequences_for_gene_cluster(self, gene_cluster_name):
-        logger.debug('In get_AA_sequences_for_gene_cluster')
+        #logger.debug('In get_AA_sequences_for_gene_cluster')
         data = {}
 
         if gene_cluster_name not in self.interactive.gene_clusters:
@@ -1171,7 +1171,7 @@ class BottleApplication(Bottle):
 
 
     def inspect_gene_cluster(self, order_name, gene_cluster_name):
-        logger.debug('In inspect_gene_cluster')
+        #logger.debug('In inspect_gene_cluster')
         data = {'gene_cluster_name': gene_cluster_name,
                 'genomes': [],
                 'index': None,
