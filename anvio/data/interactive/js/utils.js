@@ -133,13 +133,13 @@ function generate_inspect_link(options) {
     let req_prefix = window.location.href.split('=')[1];
     let req_base = url2.protocol+'//'+url2.hostname
     let pangenome = req_prefix.split('/')[2]
-    console.log('generate_inspect_link::window.location.href: '+window.location.href)
-    console.log('pre.url '+url)
-    console.log(url2.protocol+'==='+url2.hostname)
+    //console.log('generate_inspect_link::window.location.href: '+window.location.href)
+    //console.log('pre.url '+url)
+    //console.log(url2.protocol+'==='+url2.hostname)
     console.log('pangenome: '+pangenome)
     let new_url = "";
-    console.log('In generate_inspect_link')
-    console.log('type: '+type)
+    //console.log('In generate_inspect_link')
+    //console.log('type: '+type)
     if (self == top) {
         // local anvio
         console.log('local anvio')
@@ -176,25 +176,25 @@ function generate_inspect_link(options) {
     else
     {
         // anvi server
-        console.log('ELSE anvi-server????')
-        console.log('In generate_inspect_link:anvi-server')
+        //console.log('ELSE anvi-server????')
+        //console.log('In generate_inspect_link:anvi-server')
          console.log('url '+url)
-        if (url.indexOf('inspect') != -1 || url.indexOf('geneclusters') != -1) {
-            // on charts or gene cluster page
-            new_url = url;
-        }
-        else
-        {
-            // on main page
-            new_url = url + '/' + type;
-        }
+        // if (url.indexOf('inspect') != -1 || url.indexOf('geneclusters') != -1) {
+//             // on charts or gene cluster page
+//             new_url = url;
+//         }
+//         else
+//         {
+//             // on main page
+//             new_url = url + '/' + type;
+//         }
 
         //new_url = new_url + '?id=' + item_name;
         if(url2.hostname === 'vamps.mbl.edu'){
-            new_url = req_base +'/anviserver/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
+            new_url = req_base +'/anviserver/'+pangenome+'/'+type+ '?id=' + item_name;
         }else{
             // localhost
-            new_url = req_base +'/'+pangenome+'/'+'inspect_geneclusters'+ '?id=' + item_name;
+            new_url = req_base +'/'+pangenome+'/'+type+ '?id=' + item_name;
         }
         var view_key = request_prefix.substr(request_prefix.lastIndexOf('/') + 1, request_prefix.length);
         
@@ -208,7 +208,7 @@ function generate_inspect_link(options) {
     {
         new_url = new_url + '&show_snvs=' + show_snvs;
     }
-    console.log('New url1: '+new_url)
+    console.log('New url: '+new_url)
     // http://localhost/anviserver/pangenomes/Veillonella_Atypica
     // http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00000759
     //turn https://vamps.mbl.edu/static/interactive/index.html/inspect_geneclusters?id=GC_00001077
@@ -216,7 +216,7 @@ function generate_inspect_link(options) {
     //turn http://localhost/static/interactive/index.html/inspect_geneclusters?id=GC_00001077
     // into http://localhost/<pangenome>/inspect_geneclusters?id=GC_00001077
     //new_url = 'http://localhost/Veillonella_Atypica/inspect_geneclusters?id=GC_00000759'
-    console.log('New url2: '+new_url)
+    //console.log('New url2: '+new_url)
     
     return new_url;
 }
